@@ -1,6 +1,9 @@
 import React from 'react';
+
 import Banner from '../components/banner';
+
 import '../styles/pages/home.css';
+
 import Iconchat from '../img/icon-chat.png';
 import Iconmoney from '../img/icon-money.png';
 import Iconsecurity from '../img/icon-security.png';
