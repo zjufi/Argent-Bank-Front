@@ -5,16 +5,40 @@ import "../styles/components/header.css";
 
 import "../index.css";
 
+
+
 function Header() {
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
+    }
+  }, []);
+
   return (
     <nav className="main-nav">
-        <img className="main-nav-logo" src={Logo} alt="logo" />
-        <div>
-              <Link to="/login" className="main-nav-item">
-                  <i className="fa fa-user-circle"></i>
-                  Sign In
-              </Link>
-        </div>
+      <img className="main-nav-logo" src={Logo} alt="logo" />
+      <ul>
+        {!isLoggedIn && <li><Link to="/login">Sign In</Link></li>}
+        {isLoggedIn && <li><Link to="/user">Sign Up</Link></li>}
+      </ul>
+      {isLoggedIn && (
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            setIsLoggedIn(false);
+            navigate("/");
+          }}
+        >
+          Sign Out
+        </button>
+      )}  
+    
     </nav>
   );
 }

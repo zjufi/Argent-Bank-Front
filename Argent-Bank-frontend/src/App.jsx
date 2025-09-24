@@ -5,16 +5,18 @@ import Header from './components/header';
 import Home from './pages/home';
 import Footer from './components/footer';
 import Login from './pages/Login';
+import User from './pages/User';
 
 
 function App() {
-  console.log('App component rendered');
+
   return (
     <BrowserRouter>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/user" element={<User />} />
       </Routes>
       <Footer />
     </BrowserRouter>
