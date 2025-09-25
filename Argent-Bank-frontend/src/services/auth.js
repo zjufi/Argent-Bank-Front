@@ -23,3 +23,10 @@ function login(email, password) {
 }
 
 export { login };   
+
+function isAuthenticated() {
+    const token = localStorage.getItem('token');
+    return !!token;
+}
+
+export { isAuthenticated };
