@@ -46,7 +46,9 @@ function Header() {
         {!isLoggedIn && (
           <li>
             <Link to="/login">
+              <i className="fa fa-user-circle"></i>
               Sign In
+             
             </Link>
           </li>
         )}

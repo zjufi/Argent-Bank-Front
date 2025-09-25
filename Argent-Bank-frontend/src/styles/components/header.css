@@ -42,6 +42,16 @@ ul {
     text-decoration: none;
 }
 
+li a {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    gap: 7px;
+    text-decoration: none;
+}
+
 .sign-out-btn {
     background: none;
     border: none;
