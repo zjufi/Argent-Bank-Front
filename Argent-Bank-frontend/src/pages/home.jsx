@@ -15,7 +15,7 @@ function Home() {
       <section className="features">
         <h2 className="sr-only">Features</h2>
         <div className="feature-item">
-          <img src={Iconchat} alt="" class="feature-item-icon"/>
+          <img src={Iconchat} alt="" classname="feature-item-icon"/>
           <h3 className="feature-item-title">You are our #1 priority</h3>
           <p>
             Need to talk to a representative? You can get in touch through our
@@ -23,7 +23,7 @@ function Home() {
           </p>
         </div>
         <div className="feature-item">
-          <img src={Iconmoney} alt="" class="feature-item-icon" />
+          <img src={Iconmoney} alt="" classname="feature-item-icon" />
           <h3 className="feature-item-title">More savings means higher rates</h3>
           <p>
             The more you save with us, the higher your interest rate will be!
@@ -31,7 +31,7 @@ function Home() {
           </p>
         </div>
         <div className="feature-item">
-          <img src={Iconsecurity} alt="" class="feature-item-icon" />
+          <img src={Iconsecurity} alt="" classname="feature-item-icon" />
           <h3 className="feature-item-title">Security you can trust</h3>
           <p>
             We use top of the line encryption to make sure your data and money

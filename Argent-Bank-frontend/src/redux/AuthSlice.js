@@ -1,115 +1,108 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-// --- Login ---
-export const loginAsync = createAsyncThunk(
-    "auth/login",
-    async (credentials, { rejectWithValue }) => {
+const API_BASE_URL = "http://localhost:3001/api/v1";
+
+// Récupérer le token depuis localStorage au démarrage
+const token = localStorage.getItem("token");
+const storedUser = localStorage.getItem("user");
+
+export const loginUser = createAsyncThunk(
+    "auth/loginUser",
+    async ({ email, password }, thunkAPI) => {
         try {
-            const response = await fetch(
-                `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/login`,
-                {
-                    method: "POST",
-                    body: JSON.stringify(credentials),
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                }
-            );
+            console.log("📌 Tentative de login avec :", email);
 
-            const data = await response.json();
+            const response = await axios.post(`${API_BASE_URL}/user/login`, { email, password });
+            console.log("✅ Réponse login :", response.data);
 
-            if (!response.ok) {
-                return rejectWithValue(data.message || "Login failed");
-            }
+            const token = response.data.token || response.data.body?.token; // token selon API
+            if (!token) throw new Error("Token non reçu");
 
-            // Selon ton YAML : LoginResponse = { token }
-            return data.body.token;
+            // Stocker token
+            localStorage.setItem("token", token);
+
+            return token;
         } catch (error) {
-            return rejectWithValue(error.message);
+            console.error("❌ Erreur login :", error.response?.data || error.message);
+            return thunkAPI.rejectWithValue(error.response?.data?.message || "Erreur login");
         }
     }
 );
 
-// --- Fetch User Profile ---
 export const fetchUserProfile = createAsyncThunk(
     "auth/fetchUserProfile",
-    async (token, { rejectWithValue }) => {
+    async (_, thunkAPI) => {
         try {
-            const response = await fetch(
-                `${import.meta.env.VITE_REACT_APP_BASE_URL}/user/profile`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+            const state = thunkAPI.getState();
+            console.log("📌 fetchUserProfile déclenché - token :", state.auth.token);
 
-            const data = await response.json();
+            const response = await axios.get(`${API_BASE_URL}/user/profile`, {
+                headers: { Authorization: `Bearer ${state.auth.token}` },
+            });
 
-            if (!response.ok) {
-                return rejectWithValue(data.message || "Fetch profile failed");
-            }
+            console.log("✅ Réponse fetchUserProfile :", response.data);
 
-            // Selon ton YAML : UserProfile = { id, firstName, lastName, email }
-            return data.body;
+            // Stocker le user dans localStorage pour Header
+            const user = response.data.body;
+            localStorage.setItem("user", JSON.stringify(user));
+
+            return user;
         } catch (error) {
-            return rejectWithValue(error.message);
+            console.error("❌ Erreur fetchUserProfile :", error.response?.data || error.message);
+            return thunkAPI.rejectWithValue(error.response?.data?.message || "Impossible de récupérer le profil");
         }
     }
 );
-
-const initialState = {
-    token: null,
-    userProfile: null,
-    loading: false,
-    error: null,
-};
 
 const authSlice = createSlice({
     name: "auth",
-    initialState,
+    initialState: {
+        token: token || null,
+        user: storedUser ? JSON.parse(storedUser) : null,
+        status: "idle",
+        error: null,
+    },
     reducers: {
         logout: (state) => {
             state.token = null;
-            state.userProfile = null;
-            state.loading = false;
+            state.user = null;
+            state.status = "idle";
             state.error = null;
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
         },
     },
     extraReducers: (builder) => {
-        // Login
         builder
-            .addCase(loginAsync.pending, (state) => {
-                state.loading = true;
+            // loginUser
+            .addCase(loginUser.pending, (state) => {
+                state.status = "loading";
                 state.error = null;
             })
-            .addCase(loginAsync.fulfilled, (state, action) => {
-                state.loading = false;
-                state.token = action.payload; // Le token JWT
+            .addCase(loginUser.fulfilled, (state, action) => {
+                state.status = "succeeded";
+                state.token = action.payload;
             })
-            .addCase(loginAsync.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload || "Login failed";
-            });
-
-        // Fetch User Profile
-        builder
+            .addCase(loginUser.rejected, (state, action) => {
+                state.status = "failed";
+                state.error = action.payload;
+            })
+            // fetchUserProfile
             .addCase(fetchUserProfile.pending, (state) => {
-                state.loading = true;
+                state.status = "loading";
                 state.error = null;
             })
             .addCase(fetchUserProfile.fulfilled, (state, action) => {
-                state.loading = false;
-                state.userProfile = action.payload; // Les infos utilisateur
+                state.status = "succeeded";
+                state.user = action.payload;
             })
             .addCase(fetchUserProfile.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.payload || "Fetch profile failed";
+                state.status = "failed";
+                state.error = action.payload;
             });
     },
 });
 
 export const { logout } = authSlice.actions;
-export default authSlice.reducer;   
+export default authSlice.reducer;
