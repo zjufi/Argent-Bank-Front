@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import AccountCard from '../components/accountcards';
 import AccountCardsData from '../data/AccountcardsData.json';
-import "../styles/pages/user.css";
+import "../styles/pages/user.scss";
 
 
 function User() {
@@ -11,7 +11,7 @@ function User() {
 
     return (
         <>
-            <main>
+            
                 <div className="bg-dark">
                 <div className="user-header">
                     <h2>Welcome back<br />{firstName}!</h2>
@@ -27,7 +27,7 @@ function User() {
                     />
                 ))}
             </div>
-        </main >
+       
             
         </> 
     );

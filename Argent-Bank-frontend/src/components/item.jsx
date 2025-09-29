@@ -1,5 +1,5 @@
 import React from "react";
-import '../styles/components/item.css';
+import '../styles/components/item.scss';
 
 
 function Item({ image, title, description }) {

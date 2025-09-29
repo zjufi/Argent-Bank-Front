@@ -1,5 +1,5 @@
 import img from "../img/bank-tree.webp";
-import "../styles/components/banner.css";
+import "../styles/components/banner.scss";
 import React from "react";
 
 

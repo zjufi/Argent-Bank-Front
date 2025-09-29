@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser, fetchUserProfile, logout } from "../redux/AuthSlice";
 import { useNavigate } from "react-router-dom";
+import "../styles/components/form.scss";
 
 function LoginForm() {
     const dispatch = useDispatch();
