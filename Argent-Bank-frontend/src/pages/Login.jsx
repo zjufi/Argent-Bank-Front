@@ -1,16 +1,17 @@
 import React from 'react';
 import Form from '../components/form.jsx';
+import '../styles/pages/login.css';
 
-/* Login page */
+
 function Login() {
     return (
-        <div className='signin-page'>
-            <main className='bg-dark'>
+        <main className='main bg-dark'>
+            <section className="login-container">
                 {/* Returns form component */}
                 < Form />
-            </main>
-        </div>
-
+            </section>
+        </main>
     )
 }
 export default Login;
+

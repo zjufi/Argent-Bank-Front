@@ -12,16 +12,21 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
-
+#root {
+  display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
 
 
 .main {
   flex: 1;
 }
 
-.bg-dark {
+/* .bg-dark {
   background-color: #12002b;
-}
+  flex :1;
+} */
 
 .sr-only {
   border: 0 !important;
@@ -170,18 +175,18 @@ body {
   color: #fff;
 }
 
-.sign-in-content {
+/* .sign-in-content {
   box-sizing: border-box;
   background-color: white;
   width: 300px;
   margin: 0 auto;
-/*   margin-top: 3rem;
- */  padding: 2rem;
-}
+  margin-top: 3rem;
+  padding: 2rem;
+} */
 
-.sign-in-icon {
+/* .sign-in-icon {
   font-size: 5rem;
-}
+} */
 
 .input-remember {
   display: flex;
