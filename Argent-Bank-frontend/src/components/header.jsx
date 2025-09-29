@@ -1,8 +1,8 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../redux/AuthSlice"; // adapte le chemin
-import Logo from "../img/argentBankLogo.png";
+import { logout } from "../redux/AuthSlice";
+import Logo from "../img/argentBankLogo.webp";
 import "../styles/components/header.css";
 import "../index.css";
 
@@ -28,13 +28,16 @@ function Header() {
 
   return (
     <nav className="main-nav">
-      <img className="main-nav-logo" src={Logo} alt="logo" />
+      <Link to="/" className="main-nav-logo">
+        <img src={Logo} alt="Argent Bank Logo" />
+      </Link>
 
       <ul>
         {!isLoggedIn && (
           <li>
             <Link to="/login">
-              <i className="fa fa-user-circle"></i> Sign In
+              <i className="fa fa-user-circle"></i> 
+              <p>Sign In</p>
             </Link>
           </li>
         )}
