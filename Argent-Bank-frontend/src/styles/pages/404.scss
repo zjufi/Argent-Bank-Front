@@ -1,0 +1,19 @@
+
+.notfound-title  {
+
+ 	
+}
+.notfound-container p {
+ 	font-size: 24px;
+ 	color:white;
+    font-weight: bold;
+}
+
+@media (max-width: 600px) {
+  .notfound-container h1 {
+    font-size: 48px;
+  }
+  .notfound-container p {
+    font-size: 18px;
+  }
+}   

@@ -1,6 +1,6 @@
 import React from 'react';
 import Form from '../components/form.jsx';
-import '../styles/pages/login.css';
+import '../styles/pages/login.scss';
 
 
 function Login() {
